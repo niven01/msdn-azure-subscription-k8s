@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
         - name: my-dummy-app
-          image: yeasy/simple-web
+          #image: yeasy/simple-web
+          image: nginxdemos/hello
           ports:
             - name: http
               containerPort: 80
