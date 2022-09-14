@@ -1,0 +1,36 @@
+# https://shailender-choudhary.medium.com/monitor-azure-kubernetes-service-aks-with-prometheus-and-grafana-8e2fe64d1314
+
+
+# Define public Kubernetes chart repository in the Helm configuration
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+# Update local repositories
+helm repo update
+
+# Search for newly installed repositories
+helm repo list
+
+# Create a namespace for Prometheus and Grafana resources
+kubectl create ns prometheus
+
+# Install Prometheus using HELM
+helm install prometheus prometheus-community/kube-prometheus-stack -n prometheus
+
+# Check all resources in Prometheus Namespace
+kubectl get all -n prometheus
+
+
+# Port forward the Prometheus service
+kubectl port-forward -n prometheus prometheus-prometheus-kube-prometheus-prometheus-0 9090
+
+
+# Install Mongodb exporter
+https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-mongodb-exporter#service-monitor
+
+
+helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -f values-mongodb.yaml -n prometheus
+
+
+# Troubleshooting
+
+kubectl run curl --image=mcr.microsoft.com/azure-cli -i -t --restart=Never --overrides='[{"op":"add","path":"/spec/containers/0/resources","value":{"limits":{"cpu":"200m","memory":"128Mi"}}}]' --override-type json --command -- sh
