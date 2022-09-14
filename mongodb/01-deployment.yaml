@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: mongodb
+  name: mongodb
+  namespace: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mongodb
+  template:
+    metadata:
+      labels:
+        name: mongodb
+    spec:
+      containers:
+        - name: my-mongodb
+          image: mongo
+          ports:
+            - name: http
+              containerPort: 27017
+              protocol: TCP
+          env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: admin
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: p4ssw0rd!
+      restartPolicy: Always

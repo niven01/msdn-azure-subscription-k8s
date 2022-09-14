@@ -1,0 +1,11 @@
+
+
+mongodb:
+  uri: "mongodb://mongdb-service:27017"
+
+serviceMonitor:
+  enabled: true
+  scrapeTimeout: 29s
+  additionalLabels:
+    release: prometheus
+
